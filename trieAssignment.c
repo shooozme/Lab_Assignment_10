@@ -31,10 +31,9 @@ void insert(struct Trie *pTrie, char *word)
             pTrie->next[nextWord] = createTrie();
         }
 
-        pTrie->next =  pTrie->next[nextWord];
+        insert(pTrie->next[nextWord], word);
     }
 
- 
 }
 
 // computes the number of occurances of the word
@@ -81,6 +80,7 @@ struct Trie *createTrie()
 {   
     //creates a struct, and sets the flag to false
     struct Trie* newNode = malloc(sizeof(struct Trie));
+     
     newNode->isWord = 0;
 
     //sets each pointer to NULL
