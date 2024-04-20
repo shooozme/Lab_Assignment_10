@@ -6,7 +6,7 @@
 struct Trie
 {	
     int isWord; //0/1
-    struct trie* next[26];
+    struct Trie* next[26];
 };
 
 struct Trie *createTrie();
@@ -17,7 +17,7 @@ void insert(struct Trie *pTrie, char *word)
     //find the length of the passed word
     int len = strlen(word);
     //iterate through the word, and find the indivdual indexes
-    for(int i = 0; i < len; i++) {
+    for(int i = 0; i <= len; i++) {
         int nextWord = word[i] - 'a';
 
         //if at the last index of the string increase isWord, and return
@@ -30,10 +30,8 @@ void insert(struct Trie *pTrie, char *word)
         if(pTrie->next[nextWord] == NULL)  {
             pTrie->next[nextWord] = createTrie();
         }
-
         insert(pTrie->next[nextWord], word);
     }
-
 }
 
 // computes the number of occurances of the word
@@ -41,7 +39,7 @@ int numberOfOccurances(struct Trie *pTrie, char *word)
 {
     int len = strlen(word);
 
-    for(int i = 0; i < len; i++) {
+    for(int i = 0; i <= len; i++) {
         int nextWord = word[i] - 'a';
 
         if (i == len) {
@@ -49,8 +47,10 @@ int numberOfOccurances(struct Trie *pTrie, char *word)
             return pTrie->isWord;
         }
 
+        if(pTrie->next[nextWord] != NULL) {
+            numberOfOccurances(pTrie, word);
+        }
     }
-
 }
 
 // deallocate the trie structure
@@ -79,8 +79,7 @@ struct Trie *deallocateTrie(struct Trie *pTrie)
 struct Trie *createTrie()
 {   
     //creates a struct, and sets the flag to false
-    struct Trie* newNode = malloc(sizeof(struct Trie));
-     
+    struct Trie *newNode = malloc(sizeof(struct Trie));
     newNode->isWord = 0;
 
     //sets each pointer to NULL
