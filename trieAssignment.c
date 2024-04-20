@@ -48,7 +48,7 @@ int numberOfOccurances(struct Trie *pTrie, char *word)
         }
 
         if(pTrie->next[nextWord] != NULL) {
-            numberOfOccurances(pTrie, word);
+            numberOfOccurances(pTrie->next[nextWord], word);
         }
     }
 }
